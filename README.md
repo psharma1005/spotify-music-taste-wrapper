@@ -1,1 +1,1 @@
-# SpotifyWrapper 
+# SpotifyWrapper
