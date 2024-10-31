@@ -120,7 +120,7 @@ export default function SignIn(props) {
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
-          <SitemarkIcon />
+
           <Typography
             component="h1"
             variant="h4"
