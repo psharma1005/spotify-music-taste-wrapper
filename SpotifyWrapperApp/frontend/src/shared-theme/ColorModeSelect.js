@@ -17,9 +17,9 @@ export default function ColorModeSelect(props) {
       }}
       {...props}
     >
-      <MenuItem value="system">System</MenuItem>
-      <MenuItem value="light">Light</MenuItem>
-      <MenuItem value="dark">Dark</MenuItem>
+      <MenuItem value="system" sx={{fontFamily: 'Arial, sans-serif'}}>System</MenuItem>
+      <MenuItem value="light" sx={{fontFamily: 'Arial, sans-serif'}}>Light</MenuItem>
+      <MenuItem value="dark" sx={{fontFamily: 'Arial, sans-serif'}}>Dark</MenuItem>
     </Select>
   );
 }
