@@ -11,7 +11,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import Paper from '@mui/material/Paper';
+import logo from './Spotify_Primary_Logo_RGB_Green.png';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -112,19 +112,21 @@ export default function LinkSpotify(props) {
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
-      <SignInContainer direction="column" justifyContent="space-between">
-        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+      <SignInContainer direction="column" justifyContent="space-between" sx={{ fontFamily: 'Arial, sans-serif' }}>
+        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem', fontFamily: 'Arial, sans-serif' }} />
         <Card variant="outlined">
 
           <Typography
             component="h1"
             variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)', fontFamily: 'Arial, sans-serif' }}
           >
             Link Spotify Account
           </Typography>
 
-            <Box component="img" src="Spotify_Primary_Logo_RGB_Green.png" sx={{ height: "auto", width: "auto" }} />
+          <Box sx={{margin: "auto"}}>
+            <img src={logo} width={250} height={250}/>
+          </Box>
 
           <Box
             component="form"
@@ -138,7 +140,7 @@ export default function LinkSpotify(props) {
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+              <FormLabel htmlFor="email" sx={{fontFamily: 'Arial, sans-serif'}}>Email</FormLabel>
               <TextField
                 error={emailError}
                 helperText={emailErrorMessage}
@@ -157,7 +159,7 @@ export default function LinkSpotify(props) {
             </FormControl>
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password" sx={{fontFamily: 'Arial, sans-serif'}}>Password</FormLabel>
               </Box>
               <TextField
                 error={passwordError}
@@ -179,6 +181,7 @@ export default function LinkSpotify(props) {
               fullWidth
               variant="contained"
               onClick={validateInputs}
+              sx={{fontFamily: 'Arial, sans-serif'}}
             >
               Link Account
             </Button>
