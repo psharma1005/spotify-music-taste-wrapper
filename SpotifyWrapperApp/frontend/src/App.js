@@ -1,11 +1,11 @@
- import logo from './logo.svg';
+import logo from './logo.svg';
 import './App.css';
 import Button from "@mui/material/Button"
 import SignIn from "./sign-in/SignIn"
 import Test from './testUI/Test';
 import LinkSpotify from './link-spotify/linkSpotify';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ProfilePage from './profile/Profile';
+import Profile from './profile/Profile';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
           <Route path='/login' element={<SignIn />} />
           <Route path='/test' element={<Test />} />
           <Route path='/link' element={<LinkSpotify />} />
-          <Route path='/profile' element={<ProfilePage/>}/>
+          <Route path='/profile' element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>
