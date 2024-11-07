@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import logo from './Spotify_Primary_Logo_RGB_Green.png';
+import { Global, css } from '@emotion/react';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -54,6 +55,17 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
     }),
   },
 }));
+
+const GlobalStyles = () => (
+  <Global
+      styles={css`
+    /* Apply global styles */
+    body {
+      font-family: Arial, sans-serif;
+    }
+  `}
+  />
+);
 
 export default function LinkSpotify(props) {
   const [emailError, setEmailError] = React.useState(false);
@@ -112,6 +124,7 @@ export default function LinkSpotify(props) {
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
+      <GlobalStyles />
       <SignInContainer direction="column" justifyContent="space-between" sx={{ fontFamily: 'Arial, sans-serif' }}>
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem', fontFamily: 'Arial, sans-serif' }} />
         <Card variant="outlined">

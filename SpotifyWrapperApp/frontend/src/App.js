@@ -5,6 +5,7 @@ import SignIn from "./sign-in/SignIn"
 import Test from './testUI/Test';
 import LinkSpotify from './link-spotify/linkSpotify';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import ProfilePage from './profile/Profile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/login' element={<SignIn />} />
           <Route path='/test' element={<Test />} />
           <Route path='/link' element={<LinkSpotify />} />
+          <Route path='/profile' element={<ProfilePage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
