@@ -7,6 +7,7 @@ import LinkSpotify from './link-spotify/linkSpotify';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Profile from './profile/Profile';
 import MainPage from './main-page/mainpage';
+import MainPageTest from './main-page/mainpageTest';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Route path='/test' element={<Test />} />
           <Route path='/link' element={<LinkSpotify />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/main' element={<MainPage />} />
+          <Route path='/main' element={<MainPageTest />} />
         </Routes>
       </BrowserRouter>
     </div>
