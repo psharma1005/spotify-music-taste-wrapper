@@ -26,7 +26,7 @@ const PageContainer = styled(Stack)(({ theme }) => ({
             'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
         }),
     },
-  }));
+}));
 
 export default function MainPage(props) {
     return (
