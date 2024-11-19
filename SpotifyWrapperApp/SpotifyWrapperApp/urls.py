@@ -20,7 +20,12 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('accounts/', include('accounts.urls')),
     path('api/', include('testApp.urls'))
+=======
+    path('api/', include('testApp.urls')),
+    path('auth/', include('authApp.urls')),  # Include URLs for authApp
+>>>>>>> 242393c (login/logout functionality)
 ]
 
