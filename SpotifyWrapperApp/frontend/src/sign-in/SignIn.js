@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
@@ -14,7 +13,6 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 
@@ -50,13 +48,6 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
     position: 'absolute',
     zIndex: -1,
     inset: 0,
-    backgroundImage:
-      'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-    backgroundRepeat: 'no-repeat',
-    ...theme.applyStyles('dark', {
-      backgroundImage:
-        'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-    }),
   },
 }));
 
@@ -118,13 +109,19 @@ export default function SignIn(props) {
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
       <SignInContainer direction="column" justifyContent="space-between">
-        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem', fontFamily: 'Arial, sans-serif' }} />
         <Card variant="outlined">
-
+        <Typography
+            component="h1"
+            variant="h4"
+            sx={{ width: '100%', fontSize: 'clamp(3rem, 10vw, 2.15rem)', fontFamily: 'Arial, sans-serif' }}
+          >
+            Spotify Wrapper
+          </Typography>
           <Typography
             component="h1"
             variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)', fontFamily: 'Arial, sans-serif' }}
           >
             Sign in
           </Typography>
@@ -140,7 +137,7 @@ export default function SignIn(props) {
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+              <FormLabel htmlFor="email" sx={{fontFamily: 'Arial, sans-serif'}}>Email</FormLabel>
               <TextField
                 error={emailError}
                 helperText={emailErrorMessage}
@@ -154,18 +151,18 @@ export default function SignIn(props) {
                 fullWidth
                 variant="outlined"
                 color={emailError ? 'error' : 'primary'}
-                sx={{ ariaLabel: 'email' }}
+                sx={{ ariaLabel: 'email', fontFamily: 'Arial, sans-serif' }}
               />
             </FormControl>
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password" sx={{fontFamily: 'Arial, sans-serif'}}>Password</FormLabel>
                 <Link
                   component="button"
                   type="button"
                   onClick={handleClickOpen}
                   variant="body2"
-                  sx={{ alignSelf: 'baseline' }}
+                  sx={{ alignSelf: 'baseline', fontFamily: 'Arial, sans-serif' }}
                 >
                   Forgot your password?
                 </Link>
@@ -187,7 +184,8 @@ export default function SignIn(props) {
             </FormControl>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label={<Typography sx={{fontFamily: 'Arial, sans-serif'}}>Remember me</Typography>}
+              
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
@@ -195,16 +193,17 @@ export default function SignIn(props) {
               fullWidth
               variant="contained"
               onClick={validateInputs}
+              sx={{fontFamily: 'Arial, sans-serif'}}
             >
               Sign in
             </Button>
-            <Typography sx={{ textAlign: 'center' }}>
+            <Typography sx={{ textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
               Don&apos;t have an account?{' '}
               <span>
                 <Link
                   href="/material-ui/getting-started/templates/sign-in/"
                   variant="body2"
-                  sx={{ alignSelf: 'center' }}
+                  sx={{ alignSelf: 'center', fontFamily: 'Arial, sans-serif' }}
                 >
                   Sign up
                 </Link>
