@@ -14,6 +14,9 @@ import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import logo from './Spotify_Primary_Logo_RGB_Green.png';
 import { Global, css } from '@emotion/react';
 
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -51,7 +54,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 
 const GlobalStyles = () => (
   <Global
-      styles={css`
+    styles={css`
     /* Apply global styles */
     body {
       font-family: Arial, sans-serif;
@@ -66,6 +69,38 @@ export default function LinkSpotify(props) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+
+  const navigate = useNavigate();
+
+
+  const spotifyLogin = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/spotifyAPI/login/');
+      window.location.href = response.data.auth_url; // Redirect to Spotify's authorization page
+    } catch (error) {
+      console.error('Error during Spotify login:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    const processCallback = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+
+      if (code) {
+        try {
+          const response = await axios.get(`http://localhost:8000/spotifyAPI/callback/?code=${code}`);
+          console.log('Spotify authenticated successfully:', response.data);
+          navigate('/main');
+        }
+        catch (error) {
+          console.error('Error during Spotify callback:', error);
+        }
+      }
+    };
+
+    processCallback();
+  }, [navigate])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -130,8 +165,8 @@ export default function LinkSpotify(props) {
             Link Spotify Account
           </Typography>
 
-          <Box sx={{margin: "auto"}}>
-            <img src={logo} width={250} height={250}/>
+          <Box sx={{ margin: "auto" }}>
+            <img src={logo} width={250} height={250} />
           </Box>
 
           <Box
@@ -146,7 +181,7 @@ export default function LinkSpotify(props) {
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="email" sx={{fontFamily: 'Arial, sans-serif'}}>Email</FormLabel>
+              <FormLabel htmlFor="email" sx={{ fontFamily: 'Arial, sans-serif' }}>Email</FormLabel>
               <TextField
                 error={emailError}
                 helperText={emailErrorMessage}
@@ -165,7 +200,7 @@ export default function LinkSpotify(props) {
             </FormControl>
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password" sx={{fontFamily: 'Arial, sans-serif'}}>Password</FormLabel>
+                <FormLabel htmlFor="password" sx={{ fontFamily: 'Arial, sans-serif' }}>Password</FormLabel>
               </Box>
               <TextField
                 error={passwordError}
@@ -186,12 +221,12 @@ export default function LinkSpotify(props) {
               type="submit"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
-              sx={{fontFamily: 'Arial, sans-serif'}}
+              onClick={spotifyLogin}
+              sx={{ fontFamily: 'Arial, sans-serif' }}
             >
               Link Account
             </Button>
-            
+
           </Box>
         </Card>
       </SignInContainer>
