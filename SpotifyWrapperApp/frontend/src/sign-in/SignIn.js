@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
+import axios from 'axios';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -66,16 +67,47 @@ export default function SignIn(props) {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const getCSRFToken = () => {
+    const name = 'csrftoken';
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(`${name}=`)) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return null;
+  };
+
+  const handleSubmit = async (event) => {
     if (emailError || passwordError) {
       event.preventDefault();
       return;
     }
-    const data = new FormData(event.currentTarget);
+    const payload = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    const data = {
+      username: data.get('email'),
+      password: data.get('password'),
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8000/auth/login/', data, {
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+      });
+      console.log("Response: ", response.data)
+    }
+    catch (error) {
+      console.error("Error", error);
+    }
+
   };
 
   const validateInputs = () => {
@@ -111,7 +143,7 @@ export default function SignIn(props) {
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem', fontFamily: 'Arial, sans-serif' }} />
         <Card variant="outlined">
-        <Typography
+          <Typography
             component="h1"
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(3rem, 10vw, 2.15rem)', fontFamily: 'Arial, sans-serif' }}
@@ -137,7 +169,7 @@ export default function SignIn(props) {
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="email" sx={{fontFamily: 'Arial, sans-serif'}}>Email</FormLabel>
+              <FormLabel htmlFor="email" sx={{ fontFamily: 'Arial, sans-serif' }}>Email</FormLabel>
               <TextField
                 error={emailError}
                 helperText={emailErrorMessage}
@@ -156,7 +188,7 @@ export default function SignIn(props) {
             </FormControl>
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password" sx={{fontFamily: 'Arial, sans-serif'}}>Password</FormLabel>
+                <FormLabel htmlFor="password" sx={{ fontFamily: 'Arial, sans-serif' }}>Password</FormLabel>
                 <Link
                   component="button"
                   type="button"
@@ -184,8 +216,8 @@ export default function SignIn(props) {
             </FormControl>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label={<Typography sx={{fontFamily: 'Arial, sans-serif'}}>Remember me</Typography>}
-              
+              label={<Typography sx={{ fontFamily: 'Arial, sans-serif' }}>Remember me</Typography>}
+
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
@@ -193,7 +225,7 @@ export default function SignIn(props) {
               fullWidth
               variant="contained"
               onClick={validateInputs}
-              sx={{fontFamily: 'Arial, sans-serif'}}
+              sx={{ fontFamily: 'Arial, sans-serif' }}
             >
               Sign in
             </Button>

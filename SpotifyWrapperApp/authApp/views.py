@@ -2,11 +2,22 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+
+        data = json.loads(request.body)
+        #username = request.POST['username']
+        #password = request.POST['password']
+        
+        username = data.get("username")
+        password = data.get("password")
+
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -20,9 +31,15 @@ def login_view(request):
 
 def register_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        confirm_password = request.POST['confirm_password']
+        data = json.loads(request.body)
+
+        #username = request.POST['username']
+        #password = request.POST['password']
+        #confirm_password = request.POST['confirm_password']
+
+        username = data.get('username')
+        password = data.get('password')
+        confirm_password = data.get('reenter')
 
         # Check if passwords match
         if password != confirm_password:
