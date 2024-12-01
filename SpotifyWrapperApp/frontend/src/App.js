@@ -3,7 +3,7 @@ import './App.css';
 import Button from "@mui/material/Button"
 import SignIn from "./sign-in/SignIn"
 import Test from './testUI/Test';
-import LinkSpotify from './link-spotify/linkSpotify';
+import LinkSpotify from './link-spotify/LinkSpotify';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Profile from './profile/Profile';
 import MainPage from './main-page/mainpage';
@@ -22,6 +22,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/main' element={<MainPageTest />} />
           <Route path='/register' element={<Register />} />
+
         </Routes>
       </BrowserRouter>
     </div>

@@ -17,7 +17,8 @@ def spotify_login(request):
         f"response_type=code&client_id={settings.SPOTIFY_CLIENT_ID}"
         f"&redirect_uri={settings.SPOTIFY_REDIRECT_URI}&scope={scope}"
     )
-    return redirect(auth_url)
+    return JsonResponse({'auth_url': auth_url})
+    #return redirect(auth_url)
 
 def spotify_callback(request):
     code = request.GET.get('code')

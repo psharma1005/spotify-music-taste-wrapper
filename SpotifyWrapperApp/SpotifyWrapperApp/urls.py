@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('api/', include('testApp.urls')),
-    path('auth/', include('authApp.urls')),  # Include URLs for authApp
+    path('auth/', include('authApp.urls')),
+    path('spotifyAPI/', include('SpotifyAPI.urls')),  # Include URLs for authApp
 ]
 
