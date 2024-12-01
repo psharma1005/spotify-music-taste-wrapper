@@ -19,7 +19,8 @@ def spotify_login(request):
         f"response_type=code&client_id={settings.SPOTIFY_CLIENT_ID}"
         f"&redirect_uri={settings.SPOTIFY_REDIRECT_URI}&scope={scope}"
     )
-    return redirect(auth_url)
+    return JsonResponse({'auth_url': auth_url})
+    #return redirect(auth_url)
 
 @login_required
 def spotify_callback(request):
@@ -41,6 +42,7 @@ def get_spotify_user(request):
         spotify_user = SpotifyUser.objects.get(user=request.user)
         if spotify_user.tokens_expired():
             spotify_user.refresh_spotify_token()
+        
         return spotify_user
     except SpotifyUser.DoesNotExist:
         return None

@@ -14,6 +14,9 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
+import axios from 'axios';
+
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -57,6 +60,8 @@ export default function Register(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
+  const navigate = useNavigate();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -65,21 +70,51 @@ export default function Register(props) {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (emailError || passwordError) {
       event.preventDefault();
       return;
     }
-    const data = new FormData(event.currentTarget);
+    const payload = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: payload.get('username'),
+      password: payload.get('password'),
+      reenter: payload.get('reenterpassword')
     });
+
+    const data = {
+      username: payload.get('username'),
+      password: payload.get('password'),
+      reenter: payload.get('reenterpassword')
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8000/auth/register/', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log("success: ", response.data);
+
+      if (response.data.success) {
+        navigate("/main")
+      } else {
+        setPasswordErrorMessage("Registration Failed.")
+      }
+    } catch (error) {
+      console.error('error', error)
+    }
+
+
+
   };
 
   const validateInputs = () => {
-    const email = document.getElementById('email');
+    const email = document.getElementById('username');
     const password = document.getElementById('password');
+    const reenter = document.getElementById('reenterpassword');
+
 
     let isValid = true;
 
@@ -101,6 +136,14 @@ export default function Register(props) {
       setPasswordErrorMessage('');
     }
 
+    if (password.value !== reenter.value) {
+      setPasswordError(true);
+      setPasswordErrorMessage('Passwords do not match.');
+      isValid = false
+    }
+
+
+
     return isValid;
   };
 
@@ -110,7 +153,7 @@ export default function Register(props) {
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem', fontFamily: 'Arial, sans-serif' }} />
         <Card variant="outlined">
-        <Typography
+          <Typography
             component="h1"
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(3rem, 10vw, 2.15rem)', fontFamily: 'Arial, sans-serif' }}
@@ -136,13 +179,13 @@ export default function Register(props) {
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="username" sx={{fontFamily: 'Arial, sans-serif'}}>Username</FormLabel>
+              <FormLabel htmlFor="username" sx={{ fontFamily: 'Arial, sans-serif' }}>Username</FormLabel>
               <TextField
                 error={emailError}
                 helperText={emailErrorMessage}
                 id="username"
                 type="username"
-                name="uername"
+                name="username"
                 placeholder="username"
                 autoComplete="username"
                 autoFocus
@@ -155,7 +198,7 @@ export default function Register(props) {
             </FormControl>
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password" sx={{fontFamily: 'Arial, sans-serif'}}>Password</FormLabel>
+                <FormLabel htmlFor="password" sx={{ fontFamily: 'Arial, sans-serif' }}>Password</FormLabel>
               </Box>
               <TextField
                 error={passwordError}
@@ -174,7 +217,7 @@ export default function Register(props) {
             </FormControl>
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="reenterpassword" sx={{fontFamily: 'Arial, sans-serif'}}>Re-enter Password</FormLabel>
+                <FormLabel htmlFor="reenterpassword" sx={{ fontFamily: 'Arial, sans-serif' }}>Re-enter Password</FormLabel>
               </Box>
               <TextField
                 error={passwordError}
@@ -196,7 +239,7 @@ export default function Register(props) {
               fullWidth
               variant="contained"
               onClick={validateInputs}
-              sx={{fontFamily: 'Arial, sans-serif'}}
+              sx={{ fontFamily: 'Arial, sans-serif' }}
             >
               Create Account
             </Button>
