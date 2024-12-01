@@ -39,6 +39,7 @@ def get_spotify_user(request):
         spotify_user = SpotifyUser.objects.get(user=request.user)
         if spotify_user.tokens_expired():
             spotify_user.refresh_spotify_token()
+        
         return spotify_user
     except SpotifyUser.DoesNotExist:
         return None
