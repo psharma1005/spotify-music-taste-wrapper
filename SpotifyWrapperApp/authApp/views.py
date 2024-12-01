@@ -56,6 +56,6 @@ def register_view(request):
         # Create the user
         user = User.objects.create_user(username=username, password=password)
         messages.success(request, 'Account created successfully! You can now log in.')
-        return redirect('login')  # Redirect to login page after successful registration
+        return JsonResponse({"success": True, "message": "Registration successful"})  # Redirect to login page after successful registration
 
     return render(request, 'authApp/register.html')  # Render the registration form on GET

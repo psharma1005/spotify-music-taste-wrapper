@@ -16,6 +16,8 @@ import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import axios from 'axios';
 
+import { useNavigate } from "react-router-dom";
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -58,6 +60,8 @@ export default function Register(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
+  const navigate = useNavigate();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -92,6 +96,12 @@ export default function Register(props) {
         },
       });
       console.log("success: ", response.data);
+
+      if (response.data.success) {
+        navigate("/main")
+      } else {
+        setPasswordErrorMessage("Registration Failed.")
+      }
     } catch (error) {
       console.error('error', error)
     }
