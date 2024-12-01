@@ -75,7 +75,7 @@ export default function LinkSpotify(props) {
 
   const spotifyLogin = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/spotifyAPI/login/');
+      const response = await axios.get('http://localhost:8000/SpotifyAPI/login/');
       window.location.href = response.data.auth_url; // Redirect to Spotify's authorization page
     } catch (error) {
       console.error('Error during Spotify login:', error);
@@ -89,7 +89,7 @@ export default function LinkSpotify(props) {
 
       if (code) {
         try {
-          const response = await axios.get(`http://localhost:8000/spotifyAPI/callback/?code=${code}`);
+          const response = await axios.get(`http://localhost:8000/SpotifyAPI/callback/?code=${code}`);
           console.log('Spotify authenticated successfully:', response.data);
           navigate('/main');
         }
