@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 import json
 
 
@@ -22,9 +23,10 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('/')  # Redirect to homepage after login
+            return JsonResponse({"success": True, "message": "Login successful"})  # Redirect to homepage after login
         else:
             messages.error(request, 'Invalid username or password.')
+            return JsonResponse({"success": False, "message": "Login failed"})
 
     # Render the login page on GET request
     return render(request, 'authApp/login.html')
