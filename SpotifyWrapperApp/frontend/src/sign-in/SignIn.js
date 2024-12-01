@@ -15,7 +15,9 @@ import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
+
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -59,6 +61,8 @@ export default function SignIn(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
+  const navigate = useNavigate();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -80,19 +84,20 @@ export default function SignIn(props) {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     if (emailError || passwordError) {
       event.preventDefault();
       return;
     }
     const payload = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: payload.get('email'),
+      password: payload.get('password'),
     });
 
     const data = {
-      username: data.get('email'),
-      password: data.get('password'),
+      username: payload.get('email'),
+      password: payload.get('password'),
     };
 
     try {
@@ -103,6 +108,11 @@ export default function SignIn(props) {
         },
       });
       console.log("Response: ", response.data)
+      if (response.data.success) {
+        navigate("/main")
+      } else {
+        setPasswordErrorMessage("Entered incorrect password.")
+      }
     }
     catch (error) {
       console.error("Error", error);
