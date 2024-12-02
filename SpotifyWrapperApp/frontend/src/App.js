@@ -3,7 +3,7 @@ import './App.css';
 import Button from "@mui/material/Button"
 import SignIn from "./sign-in/SignIn"
 import Test from './testUI/Test';
-import LinkSpotify from './link-spotify/LinkSpotify';
+import LinkSpotify from './link-spotify/linkSpotify';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Profile from './profile/Profile';
 import MainPage from './main-page/mainpage';
