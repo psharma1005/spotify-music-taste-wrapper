@@ -23,6 +23,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('api/', include('testApp.urls')),
     path('auth/', include('authApp.urls')),
-    path('SpotifyAPI/', include('SpotifyAPI.urls')),  # Include URLs for authApp
+    path('SpotifyAPI/', include('SpotifyAPI.urls')), 
 ]
 
