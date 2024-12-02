@@ -1,9 +1,9 @@
-from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 import requests
 from django.conf import settings
+from django.utils.timezone import make_aware
 from datetime import timedelta
 from django.db.models import JSONField
 
@@ -15,7 +15,7 @@ class SpotifyUser(models.Model):
     previous_top_artists = JSONField(default=dict, blank=True)
 
     def tokens_expired(self):
-        return datetime.now() >= self.expires_at
+        return now() >= self.expires_at
 
     def refresh_spotify_token(self):
         response = requests.post(
@@ -30,7 +30,8 @@ class SpotifyUser(models.Model):
         if response.status_code == 200:
             token_data = response.json()
             self.access_token = token_data['access_token']
-            self.expires_at = now() + timedelta(seconds=token_data['expires_in'])
+
+            self.expires_at = make_aware(now() + timedelta(seconds=token_data['expires_in']))
             self.save()
         else:
             raise Exception('Failed to refresh access token.')
