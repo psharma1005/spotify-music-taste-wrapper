@@ -1,8 +1,7 @@
-import requests
+mport requests
 from django.conf import settings
 
 def get_spotify_token(code):
-    """Exchange code for access and refresh tokens."""
     payload = {
         'grant_type': 'authorization_code',
         'code': code,

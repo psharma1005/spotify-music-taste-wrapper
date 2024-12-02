@@ -19,8 +19,7 @@ def spotify_login(request):
         f"response_type=code&client_id={settings.SPOTIFY_CLIENT_ID}"
         f"&redirect_uri={settings.SPOTIFY_REDIRECT_URI}&scope={scope}"
     )
-    return JsonResponse({'auth_url': auth_url})
-    #return redirect(auth_url)
+    return redirect(auth_url)
 
 @login_required
 def spotify_callback(request):
@@ -42,7 +41,6 @@ def get_spotify_user(request):
         spotify_user = SpotifyUser.objects.get(user=request.user)
         if spotify_user.tokens_expired():
             spotify_user.refresh_spotify_token()
-        
         return spotify_user
     except SpotifyUser.DoesNotExist:
         return None
@@ -63,13 +61,19 @@ def get_top_artists(request):
     spotify_user = get_spotify_user(request)
     if not spotify_user:
         return redirect('/api/login/')
-    url = 'https://api.spotify.com/v1/me/top/artists'
-    response = make_spotify_request(spotify_user, url, params={'limit': 10})
+    headers = {'Authorization': f'Bearer {spotify_user.access_token}'}
+    response = requests.get('https://api.spotify.com/v1/me/top/artists?limit=10', headers=headers)
     if response.status_code == 200:
         data = response.json()
-        artists = [{'name': artist['name'], 'popularity': artist['popularity']} for artist in data.get('items', [])]
+        artists = [
+            {
+                'name': artist['name'],
+                'popularity': artist['popularity'],
+                'image_url': artist['images'][0]['url'] if artist['images'] else None
+            } for artist in data.get('items', [])
+        ]
         return JsonResponse({'top_artists': artists})
-    return JsonResponse({'error': 'Unable to fetch top artists'}, status=response.status_code)
+    return JsonResponse({'error': 'Unable to fetch top artists'}, status=400)
 
 
 @login_required
@@ -77,13 +81,19 @@ def get_top_tracks(request):
     spotify_user = get_spotify_user(request)
     if not spotify_user:
         return redirect('/api/login/')
-    url = 'https://api.spotify.com/v1/me/top/tracks'
-    response = make_spotify_request(spotify_user, url, params={'limit': 10})
+    headers = {'Authorization': f'Bearer {spotify_user.access_token}'}
+    response = requests.get('https://api.spotify.com/v1/me/top/tracks?limit=10', headers=headers)
     if response.status_code == 200:
         data = response.json()
-        tracks = [{'name': track['name'], 'artist': track['artists'][0]['name']} for track in data.get('items', [])]
+        tracks = [
+            {
+                'name': track['name'],
+                'artist': track['artists'][0]['name'],
+                'album_image_url': track['album']['images'][0]['url'] if track['album']['images'] else None
+            } for track in data.get('items', [])
+        ]
         return JsonResponse({'top_tracks': tracks})
-    return JsonResponse({'error': 'Unable to fetch top tracks'}, status=response.status_code)
+    return JsonResponse({'error': 'Unable to fetch top tracks'}, status=400)
 
 
 @login_required
