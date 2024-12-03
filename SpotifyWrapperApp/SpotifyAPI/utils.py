@@ -1,5 +1,6 @@
-mport requests
+import requests
 from django.conf import settings
+
 
 def get_spotify_token(code):
     payload = {
