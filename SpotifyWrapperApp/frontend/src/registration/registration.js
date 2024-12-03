@@ -70,8 +70,15 @@ export default function Register(props) {
     setOpen(false);
   };
 
+
+  const handSubmit = () => {
+    navigate('/login')
+  }
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    navigate('/main')
     if (emailError || passwordError) {
       event.preventDefault();
       return;
@@ -238,7 +245,7 @@ export default function Register(props) {
               type="submit"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
+              onClick={handSubmit}
               sx={{ fontFamily: 'Arial, sans-serif' }}
             >
               Create Account

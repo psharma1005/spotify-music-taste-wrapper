@@ -120,6 +120,10 @@ export default function SignIn(props) {
 
   };
 
+  const handSubmit = () => {
+    navigate('/main')
+  }
+
   const validateInputs = () => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
@@ -169,7 +173,7 @@ export default function SignIn(props) {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handSubmit}
             noValidate
             sx={{
               display: 'flex',
