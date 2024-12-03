@@ -76,7 +76,7 @@ export default function LinkSpotify(props) {
   const spotifyLogin = async () => {
     try {
       const response = await axios.get('http://localhost:8000/SpotifyAPI/login/');
-      window.location.href = response.data.auth_url; 
+      window.location.href = response.data.auth_url; // Redirect to Spotify's authorization page
     } catch (error) {
       console.error('Error during Spotify login:', error);
     }
